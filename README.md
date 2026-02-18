@@ -1,44 +1,50 @@
-# Sabin Health Data Audit
+# Sabin Health Audit
 
-This repository contains the Python code used to analyze public health outcomes in Colorado. The findings are published at [SabinHealth.com](https://sabinhealth.com).
+## Overview
+This project provides an auditing tool for health data.
 
-## Projects
+## Setup Instructions
 
-### 1. Denver Ozone Analysis (`compare_ozone.py`)
-Analyzes the effectiveness of the 2024 Reformulated Gasoline (RFG) mandate.
-* **Data Source:** EPA Air Quality System (AQS) - Daily Summary Data.
-* **Key Findings:** 2024 ozone peaks exceeded the 2022 baseline despite new regulations.
+To set up the project, follow these instructions:
 
-### 2. Oil & Gas Safety Audit (`analyze_spills.py`)
-Evaluates the impact of Senate Bill 19-181 on reported spill frequency.
-* **Data Source:** ECMC (formerly COGCC) Daily Spill/Release Data.
-* **Key Findings:** Reported spills increased by 270% following the implementation of stricter reporting standards.
-
-## How to Run This Code
-
-1. **Install Dependencies:**
+1. Clone the repository:
    ```bash
-   pip install pandas matplotlib seaborn
+   git clone https://github.com/SabinHealth/sabin-health-audit.git
+   ```
 
-2. **Download Data:**
-Ozone Data:
-Go to EPA Outdoor Air Quality Data.
+2. Navigate to the project directory:
+   ```bash
+   cd sabin-health-audit
+   ```
 
-Select "Ozone" -> "2024" -> "Colorado" -> "Denver".
+3. Install the required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Rename the file to daily_44201_2024.csv.
+## Usage
 
-Oil & Gas Data:
+To run the audit tool, use the following command:
+```bash
+python audit_tool.py
+```
 
-Go to the ECMC Data Dashboard.
+## Error Handling
 
-Download the "Spills and Releases" dataset.
+The following errors may occur during execution:
+- `FileNotFoundError`: Raised when a required file is missing.
+- `ValueError`: Raised when input values are invalid.
 
-Rename the file to spills.csv.
+Ensure you handle these errors in your implementation by using try-except blocks:
 
-3. **Run Scripts**
-Navigate to the folder in your terminal and run:
+```python
+try:
+    # Your code here
+except FileNotFoundError:
+    print('Required file not found!')
+except ValueError:
+    print('Invalid input value!')
+```
 
-Bash
-python3 compare_ozone.py
-python3 analyze_spills.py
+## Contributing
+We welcome contributions! Please open issues and submit pull requests accordingly.
