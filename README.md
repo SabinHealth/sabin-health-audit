@@ -19,3 +19,26 @@ Evaluates the impact of Senate Bill 19-181 on reported spill frequency.
 1. **Install Dependencies:**
    ```bash
    pip install pandas matplotlib seaborn
+
+2. **Download Data:**
+Ozone Data:
+Go to EPA Outdoor Air Quality Data.
+
+Select "Ozone" -> "2024" -> "Colorado" -> "Denver".
+
+Rename the file to daily_44201_2024.csv.
+
+Oil & Gas Data:
+
+Go to the ECMC Data Dashboard.
+
+Download the "Spills and Releases" dataset.
+
+Rename the file to spills.csv.
+
+3. **Run Scripts**
+Navigate to the folder in your terminal and run:
+
+Bash
+python3 compare_ozone.py
+python3 analyze_spills.py
