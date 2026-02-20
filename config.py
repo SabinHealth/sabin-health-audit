@@ -76,6 +76,27 @@ FONT_SIZE_TICK = 10
 CSV_ENCODING = 'ISO-8859-1'
 
 # ============================================================================
+# ENCAMPMENTS 311 ANALYSIS CONFIGURATION
+# ============================================================================
+
+ENCAMPMENTS_INPUT_FILE = 'ODC_service_requests_311_8405769495820686528.csv'
+ENCAMPMENTS_OUTPUT_CSV = 'encampment_reports_monthly.csv'
+ENCAMPMENTS_OUTPUT_PNG = 'encampment_reports_trend.png'
+ENCAMPMENTS_TITLE = 'Denver 311 Reports: Homeless Encampments & Sweeps (2025 - 2026)'
+
+# Exclude incomplete months at or after this date
+ENCAMPMENTS_CUTOFF_DATE = '2026-02'
+
+ENCAMPMENTS_TARGET_SUMMARIES = [
+    'Encampment Reporting',
+    '911 ENCAMPMENT',
+    'Homeless Encampments',
+    'Encampment / Street Engagement',
+    'Sweep Request',
+    'Request to Begin Sweeping'
+]
+
+# ============================================================================
 # LOGGING CONFIGURATION
 # ============================================================================
 
