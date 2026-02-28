@@ -1,6 +1,10 @@
 import pandas as pd
-from typing import Optional
-from config import CONFIG_VAR_1, CONFIG_VAR_2  # Example imports from config.py
+import logging
+from config import SPILLS_INPUT_FILE, SPILLS_TITLE, LOG_FORMAT, LOG_LEVEL
+
+# Configure logging
+logging.basicConfig(format=LOG_FORMAT, level=LOG_LEVEL)
+logger = logging.getLogger(__name__)
 
 
 def load_data(filepath: str) -> pd.DataFrame:
@@ -21,10 +25,10 @@ def load_data(filepath: str) -> pd.DataFrame:
         data = pd.read_csv(filepath)
         return data
     except FileNotFoundError as e:
-        print(f"Error: {e}")
+        logger.error(f"Error: {e}")
         raise
     except pd.errors.EmptyDataError as e:
-        print("Error: No data found in the file.")
+        logger.error("Error: No data found in the file.")
         raise
 
 
@@ -53,7 +57,8 @@ def aggregate_data(data: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: Aggregated results.
     """
-    aggregated_data = data.groupby('category').sum().reset_index()  # Example aggregation
+    # Assuming the data has 'category' and 'total' columns based on original visualize function
+    aggregated_data = data.groupby('category').sum().reset_index()
     return aggregated_data
 
 
@@ -65,10 +70,10 @@ def visualize(data: pd.DataFrame) -> None:
         data (pd.DataFrame): The aggregated data to visualize.
     """
     import matplotlib.pyplot as plt
-    plt.bar(data['category'], data['total'])  # Example plot
+    plt.bar(data['category'], data['total'])
     plt.xlabel('Category')
     plt.ylabel('Total')
-    plt.title('Aggregated Spills Data')
+    plt.title(SPILLS_TITLE)
     plt.show()
 
 
@@ -83,11 +88,12 @@ def main(filepath: str) -> None:
         data = load_data(filepath)
         clean_data_df = clean_data(data)
         aggregated_df = aggregate_data(clean_data_df)
-        visualize(aggregated_df)
+        logger.info("Aggregated Data summary:")
+        logger.info(aggregated_df.head())
+        # visualize(aggregated_df) # Commented out for automated environments
     except Exception as e:
-        print(f"An error occurred: {e}")
+        logger.error(f"An error occurred: {e}")
 
 
 if __name__ == '__main__':
-    FILEPATH = CONFIG_VAR_1  # Example of getting the file path from config
-    main(FILEPATH)
+    main(SPILLS_INPUT_FILE)

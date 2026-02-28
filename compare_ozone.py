@@ -1,5 +1,5 @@
 import logging
-from config import SOME_CONFIG_CONSTANT
+from config import FEDERAL_OZONE_LIMIT
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ def compare_ozone(data: list) -> dict:
                 continue
             ozone_level = entry['ozone_level']
             # Assuming the constant is used for comparison
-            if ozone_level > SOME_CONFIG_CONSTANT:
+            if ozone_level > FEDERAL_OZONE_LIMIT:
                 result[entry['id']] = 'Exceeds allowable level'
             else:
                 result[entry['id']] = 'Within safe levels'
