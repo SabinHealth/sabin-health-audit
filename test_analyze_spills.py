@@ -1,37 +1,32 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from analyze_spills import load_data, clean_data, aggregate_data, main
+import pandas as pd
+from analyze_spills import load_data, clean_data, aggregate_data
 
 class TestAnalyzeSpills(unittest.TestCase):
 
-    @patch('analyze_spills.pd.read_csv')
+    @patch('pandas.read_csv')
     def test_load_data(self, mock_read_csv):
-        mock_data = {'column1': [1, 2], 'column2': [3, 4]}
-        mock_read_csv.return_value = mock_data
+        mock_df = pd.DataFrame({'column1': [1, 2], 'column2': [3, 4]})
+        mock_read_csv.return_value = mock_df
         data = load_data('dummy_path.csv')
-        self.assertEqual(data, mock_data)
+        pd.testing.assert_frame_equal(data, mock_df)
         mock_read_csv.assert_called_once_with('dummy_path.csv')
 
-    @patch('analyze_spills.load_data')
-    def test_clean_data(self, mock_load_data):
-        mock_load_data.return_value = {'column1': [1, None, 2], 'column2': [3, 4, None]}
-        cleaned_data = clean_data('dummy_path.csv')
-        self.assertNotIn(None, cleaned_data['column1'])
-        self.assertNotIn(None, cleaned_data['column2'])
+    def test_clean_data(self):
+        input_df = pd.DataFrame({'category': ['A', 'A', 'B'], 'total': [1, 1, None]})
+        # Expected behavior: dropna removes the row with None, drop_duplicates removes the duplicate row
+        cleaned_data = clean_data(input_df)
+        self.assertEqual(len(cleaned_data), 1)
+        self.assertEqual(cleaned_data.iloc[0]['category'], 'A')
+        self.assertEqual(cleaned_data.iloc[0]['total'], 1)
 
-    @patch('analyze_spills.clean_data')
-    def test_aggregate_data(self, mock_clean_data):
-        mock_clean_data.return_value = {'column1': [1, 2], 'column2': [3, 4]}
-        aggregated = aggregate_data('dummy_path.csv')
-        self.assertEqual(sum(aggregated['column1']), 3)
-        self.assertEqual(sum(aggregated['column2']), 7)
-
-    @patch('analyze_spills.aggregate_data')
-    def test_main(self, mock_aggregate_data):
-        mock_aggregate_data.return_value = {'column1': [1], 'column2': [3]}
-        with patch('builtins.print') as mocked_print:
-            main()
-            mocked_print.assert_called_once_with("Aggregated Data:", mock_aggregate_data.return_value)
+    def test_aggregate_data(self):
+        input_df = pd.DataFrame({'category': ['A', 'A', 'B'], 'total': [1, 2, 4]})
+        aggregated = aggregate_data(input_df)
+        self.assertEqual(len(aggregated), 2)
+        self.assertEqual(aggregated[aggregated['category'] == 'A']['total'].values[0], 3)
+        self.assertEqual(aggregated[aggregated['category'] == 'B']['total'].values[0], 4)
 
 if __name__ == '__main__':
     unittest.main()

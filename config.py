@@ -49,6 +49,23 @@ SPILLS_END_DATE = '2025-12-31'
 SPILLS_ROLLING_AVERAGE_WINDOW = 6
 
 # ============================================================================
+# ENCAMPMENT ANALYSIS CONFIGURATION
+# ============================================================================
+
+ENCAMPMENTS_INPUT_FILE = 'ODC_service_requests_311_8405769495820686528.csv'
+ENCAMPMENTS_TARGET_SUMMARIES = [
+    'Encampment Reporting',
+    '911 ENCAMPMENT',
+    'Homeless Encampments',
+    'Encampment / Street Engagement',
+    'Sweep Request',
+    'Request to Begin Sweeping'
+]
+ENCAMPMENTS_OUTPUT_CSV = 'encampment_reports_monthly.csv'
+ENCAMPMENTS_OUTPUT_PNG = 'encampment_reports_trend.png'
+ENCAMPMENTS_TITLE = 'Denver 311 Reports: Homeless Encampments & Sweeps (2025 - 2026)'
+
+# ============================================================================
 # OZONE VISUALIZATION SETTINGS
 # ============================================================================
 
